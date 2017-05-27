@@ -1,0 +1,18 @@
+To open the app, go to the Assets folder and open HoloCaptions.unity in Unity on a Windows 10 PC.
+To test the app, go to File > Build & Run. Make sure the platform is set to Windows Store by selecting "Windows Store" from the platform list and clicking on "Switch Platform." The settings should look like this:
+
+SDK: Universal 10
+Target Device: HoloLens
+UWP Build Type: D3D
+UWP SDK: Latest installed
+Build and run on: Local Machine
+
+Next, make sure "Unity C# Projects" is checked under Debugging. Finally, click Build. Create a new folde in the directory that pops up, name it "App" and select that folder, then click Select. 
+
+After the build is complete, a folder will open in File Explorer. Click on the App folder and select HoloCaptions.sln, which will open in Visual Studio.  
+
+In Visual Studio, change "Debug" to "Release" and "ARM" to "X86" on the task bar. Change "Local Machine" to either "HoloLens emulator" if you have it installed or "Remote Machine" on the dropdown menu to connect to your HoloLens. You will be prompted for the IP address of your HoloLens. You can find the IP address by clicking on "Advanced Settings" in the WiFi settings on your HoloLens. Your HoloLens will need to be set to Developer mode in Settings and paired to your computer by inputting the PIN number given by the HoloLens when prompted in Visual Studio. 
+
+Finally, go to Debug on the taskbar and click on "Start Without Debugging."
+
+The application should appear in your field of view on the HoloLens after you see the "Made in Unity" splash screen and you will see a microphone icon floating in front of you. You may begin speaking at this point and you should begin to see text appearing next to the microphone.
