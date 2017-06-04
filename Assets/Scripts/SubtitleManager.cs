@@ -53,8 +53,8 @@ public class SubtitleManager : MonoBehaviour
         // Start dictation recognizer.
         dictationRecognizer.Start();
 
-        dictationRecognizer.InitialSilenceTimeoutSeconds = (10000);
-        dictationRecognizer.AutoSilenceTimeoutSeconds = (10000);
+        dictationRecognizer.InitialSilenceTimeoutSeconds = 10000;
+        dictationRecognizer.AutoSilenceTimeoutSeconds = 10000;
         
 
     }
