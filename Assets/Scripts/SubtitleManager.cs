@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VR.WSA.Input;
 using UnityEngine.Windows.Speech;
 
 public class SubtitleManager : MonoBehaviour
@@ -13,14 +14,20 @@ public class SubtitleManager : MonoBehaviour
     // Cache the text currently displayed in the text box.
     private StringBuilder textSoFar;
 
-
-    bool isListening = true;
-
-    public Text statusText;
-
     public RawImage statusImage;
 
+    GestureRecognizer gestureRecognizer;
 
+    bool isSleeping = true;
+
+
+    // Initialize system.
+    private void Start()
+    {
+        gestureRecognizer = new GestureRecognizer();
+        gestureRecognizer.TappedEvent += GestureRecognizer_TappedEvent;
+        gestureRecognizer.StartCapturingGestures();
+    }
 
     void Awake()
     {
@@ -87,11 +94,22 @@ public class SubtitleManager : MonoBehaviour
     {
         dictationRecognizer.Stop();
         SetSleeping();
-        dictationRecognizer.Dispose();
-        dictationRecognizer.Start();
     }
 
-
+    private void GestureRecognizer_TappedEvent(InteractionSourceKind source, int tapCount, Ray headRay)
+    {
+        isSleeping = !isSleeping;
+        if (isSleeping)
+        {
+            SetSleeping();
+            dictationRecognizer.Stop();
+        }
+        else
+        {
+            SetListening();
+            dictationRecognizer.Start();
+        }
+    }
 
     private void DictationRecognizer_DictationError(string error, int hresult)
     {
@@ -101,11 +119,10 @@ public class SubtitleManager : MonoBehaviour
 
     private void SetListening()
     {
-        var listeningTexture = (Texture2D)Resources.Load("mic_icon_red");
+        var listeningTexture = (Texture2D)Resources.Load("mic_icon");
 
         statusImage.texture = listeningTexture;
 
-        statusText.text = "Listening";
         
     }
 
@@ -115,16 +132,13 @@ public class SubtitleManager : MonoBehaviour
 
         statusImage.texture = sleepingTexture;
 
-        statusText.text = "Sleeping";
         DictationDisplay.text = string.Empty;
     }
 
     private void SetThinking()
     {
-        var thinkingTexture = (Texture2D)Resources.Load("mic_icon");
+        var thinkingTexture = (Texture2D)Resources.Load("mic_icon_red");
 
         statusImage.texture = thinkingTexture;
-
-        statusText.text = "Thinking";
     }
 }
